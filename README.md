@@ -1,79 +1,59 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
-# Getting Started
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+**Smart Home Automation System**
+==========================
 
-## Step 1: Start the Metro Server
+**Overview**
+------------
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+This project is an AI-driven Smart Home Automation System with IoT integration, designed to enhance security, energy efficiency, and appliance control. The system is controlled via a React Native mobile app and features real-time intruder detection, fire/smoke alarms, smart locks, energy consumption tracking, and dynamic device management.
 
-To start Metro, run the following command from the _root_ of your React Native project:
+**Features**
+------------
 
-```bash
-# using npm
-npm start
+* **Real-time Intruder Detection**: AI-powered computer vision detects and alerts users to potential security threats.
+* **Fire/Smoke Alarms**: Integrated sensors detect fire and smoke, triggering alerts and notifications.
+* **Smart Locks**: Secure and control access to your home with smart locks integrated with the system.
+* **Energy Consumption Tracking**: Monitor and optimize energy usage in real-time.
+* **Dynamic Device Management**: Easily add, remove, and control devices connected to the system.
 
-# OR using Yarn
-yarn start
-```
+**Technical Details**
+--------------------
 
-## Step 2: Start your Application
+* **Frontend**: React Native mobile app for user interaction and control.
+* **Backend**: Cloud-based services (AWS/Azure/Google Cloud) for data processing, AI model deployment, and device management.
+* **State Management**: Redux for efficient state management and data synchronization.
+* **AI Models**: Trained models for computer vision, object detection, and predictive analytics.
+* **IoT Integration**: Compatible with various IoT devices and protocols (e.g., Zigbee, Z-Wave, Bluetooth).
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+**System Architecture**
+----------------------
 
-### For Android
+### Mobile App
 
-```bash
-# using npm
-npm run android
+* User authentication and authorization
+* Real-time data visualization and control
+* Push notifications and alerts
 
-# OR using Yarn
-yarn android
-```
+### Cloud Services
 
-### For iOS
+* Data ingestion and processing
+* AI model deployment and inference
+* Device management and control
 
-```bash
-# using npm
-npm run ios
+### IoT Devices
 
-# OR using Yarn
-yarn ios
-```
+* Sensors and actuators for data collection and control
+* Integration with various IoT protocols and devices
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+**Getting Started**
+-------------------
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+**Contributing**
+------------
 
-## Step 3: Modifying your App
+**License**
+-------
 
-Now that you have successfully run the app, let's modify it.
-
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+**Acknowledgments**
+------------

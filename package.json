@@ -7,11 +7,21 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "clean": "cd android && ./gradlew clean",
+    "cleanApp": "cd android && ./gradlew uA",
+    "release": "cd android  && ./gradlew assembleRelease"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^2.0.0",
+    "@reduxjs/toolkit": "^2.2.7",
+    "axios": "^1.7.7",
     "react": "18.3.1",
-    "react-native": "0.75.3"
+    "react-native": "0.75.3",
+    "react-native-config": "^1.5.3",
+    "react-native-version-check": "^3.4.7",
+    "react-redux": "^9.1.2",
+    "redux-thunk": "^3.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -22,6 +32,7 @@
     "@react-native/metro-config": "0.75.3",
     "@react-native/typescript-config": "0.75.3",
     "@types/react": "^18.2.6",
+    "@types/react-native-version-check": "^3.4.8",
     "@types/react-test-renderer": "^18.0.0",
     "babel-jest": "^29.6.3",
     "eslint": "^8.19.0",
