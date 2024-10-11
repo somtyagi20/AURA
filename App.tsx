@@ -1,17 +1,21 @@
 import React from 'react';
 import {
-  Text,
+  SafeAreaView,
   View,
 } from 'react-native';
 import { Provider } from 'react-redux';
 import { store } from './src/app/store';
+import Login from './src/screens/login-screen/Login';
+import Signup from './src/screens/signup-screen/Signup';
 
 function App(): React.JSX.Element {
   return (
     <Provider store={store}>
+     <SafeAreaView>
       <View>
-        <Text>Hii</Text>
+        <Signup/>
       </View>
+     </SafeAreaView>
     </Provider>
   );
 }
