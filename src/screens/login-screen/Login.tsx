@@ -10,6 +10,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup'
 import { loginValidationSchema } from '../../validations/auth-validations/login-validation';
+import { useNavigation } from '@react-navigation/native';
+import { TAuthNavigator } from '../../navigation/auth-navigator/AuthNavigator';
 
 
 export default function Login() {
@@ -20,8 +22,10 @@ export default function Login() {
     mode: 'onBlur',
   });
 
+  const navigation = useNavigation<TAuthNavigator>();
+
   const onSubmit = (data) => {
-    console.log(data);
+    navigation.navigate('Home');
   };
 
   return (
@@ -31,14 +35,14 @@ export default function Login() {
       </Text>
       <View style={styles.inputContainer}>
       <View style={styles.inputTextContainer}>
-        <Text>Enter Your Email:</Text>
+        <Text>Enter Your Mobile Number:</Text>
         <Controller
           control={control}
-          name="email"
+          name="phone_number"
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
                 style={styles.inputText}
-                placeholder="Email"
+                placeholder="Mobile Number"
                 placeholderTextColor= {colors.primary}
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -46,7 +50,7 @@ export default function Login() {
          />
           )}
         />
-        {errors.email && <Text style={styles.errorText}>{errors.email.message}</Text>}
+        {errors.phone_number && <Text style={styles.errorText}>{errors.phone_number.message}</Text>}
       </View>
       <View style={styles.inputTextContainer}>
         <Text>Enter Password:</Text>
@@ -91,10 +95,9 @@ export default function Login() {
       </TouchableOpacity>
       <View style={styles.changePasswordContainer}>
         <Text>Forgot password? </Text>
-        <TouchableOpacity activeOpacity={0.8} onPress={() => {console.log('change password')}}>
+        <TouchableOpacity activeOpacity={0.8} onPress={() => {navigation.navigate('Signup')}}>
           <Text style={styles.changePassword}>Change Password</Text>
         </TouchableOpacity>
-          
       </View>
     </View>
   );
@@ -103,7 +106,7 @@ export default function Login() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.background,
-    height: '100%',
+    height: hp(100),
   },
   login: {
     fontSize: 20,
@@ -146,7 +149,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     marginHorizontal: 30,
-    top: 330,
+    top: 250,
   },
   changePassword: {
     color: colors.btn,
@@ -168,5 +171,5 @@ const styles = StyleSheet.create({
   errorText: {
     color: 'red',
     fontSize: 12,
-  }
+  },
 });

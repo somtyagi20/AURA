@@ -1,20 +1,20 @@
 import React from 'react';
 import {
   SafeAreaView,
-  View,
 } from 'react-native';
 import { Provider } from 'react-redux';
 import { store } from './src/app/store';
-import Login from './src/screens/login-screen/Login';
-import Signup from './src/screens/signup-screen/Signup';
+import { NavigationContainer } from '@react-navigation/native';
+import AppNavigator from './src/navigation/app-navigator/AppNavigator';
+import AuthNavigator from './src/navigation/auth-navigator/AuthNavigator';
 
 function App(): React.JSX.Element {
   return (
     <Provider store={store}>
-     <SafeAreaView>
-      <View>
-        <Signup/>
-      </View>
+     <SafeAreaView style={{height: '100%'}}>
+      <NavigationContainer>
+        <AuthNavigator />
+      </NavigationContainer>
      </SafeAreaView>
     </Provider>
   );
