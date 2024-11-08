@@ -1,5 +1,5 @@
 // DevicesScreen.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   View,
@@ -11,6 +11,9 @@ import {
 
 // Updated import for MaterialCommunityIcons
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import io from 'socket.io-client';
+
+const socket = io('http://192.168.119.181:3000'); // Adjust the URL to your backend
 
 const DevicesScreen = () => {
   const [selectedRoom, setSelectedRoom] = useState('Living Room');
@@ -23,11 +26,30 @@ const DevicesScreen = () => {
 
   const rooms = ['All Devices', 'Living Room', 'Bedroom'];
 
+  useEffect(() => {
+    socket.on('connect', () => {
+      console.log('Connected to backend');
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Disconnected from backend');
+    });
+
+    return () => {
+      socket.off('connect');
+      socket.off('disconnect');
+    };
+  }, []);
+
   const toggleDevice = (device) => {
-    setDevices(prev => ({
+    const newStatus = !devices[device];
+    setDevices((prev) => ({
       ...prev,
-      [device]: !prev[device]
+      [device]: newStatus,
     }));
+
+    // Emit the control event to the backend
+    socket.emit('controlLed', { action: newStatus ? 'on' : 'off' });
   };
 
   return (
