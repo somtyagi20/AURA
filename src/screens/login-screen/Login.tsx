@@ -10,7 +10,11 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup'
 import { loginValidationSchema } from '../../validations/auth-validations/login-validation';
-
+import { useNavigation } from '@react-navigation/native';
+import { TAuthNavigator } from '../../navigation/auth-navigator/AuthNavigator';
+import { TTabNavigator } from '../../navigation/tab-navigator/TabNavigator';
+import { useLoginMutation } from '../../hooks/auth/useLoginMutation';
+import Modal from 'react-native-modal';
 
 export default function Login() {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -20,8 +24,25 @@ export default function Login() {
     mode: 'onBlur',
   });
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const [errorModalVisible, setErrorModalVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const loginMutation = useLoginMutation();
+
+  const navigation = useNavigation<TTabNavigator>();
+
+  const onSubmit = async(data:Login) => {
+    try {
+      await loginMutation.mutateAsync(data);
+    } catch (error:any) {
+      if (error) {
+        setErrorMessage(error?.details?.message);
+        setErrorModalVisible(true);
+      } else {
+        setErrorMessage('There was a problem signing up. Please try again.');
+        setErrorModalVisible(true);
+      }
+    }
   };
 
   return (
@@ -31,14 +52,14 @@ export default function Login() {
       </Text>
       <View style={styles.inputContainer}>
       <View style={styles.inputTextContainer}>
-        <Text>Enter Your Email:</Text>
+        <Text>Enter Your Mobile Number:</Text>
         <Controller
           control={control}
-          name="email"
+          name="phone_number"
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
                 style={styles.inputText}
-                placeholder="Email"
+                placeholder="Mobile Number"
                 placeholderTextColor= {colors.primary}
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -46,7 +67,7 @@ export default function Login() {
          />
           )}
         />
-        {errors.email && <Text style={styles.errorText}>{errors.email.message}</Text>}
+        {errors.phone_number && <Text style={styles.errorText}>{errors.phone_number.message}</Text>}
       </View>
       <View style={styles.inputTextContainer}>
         <Text>Enter Password:</Text>
@@ -91,11 +112,22 @@ export default function Login() {
       </TouchableOpacity>
       <View style={styles.changePasswordContainer}>
         <Text>Forgot password? </Text>
-        <TouchableOpacity activeOpacity={0.8} onPress={() => {console.log('change password')}}>
+        <TouchableOpacity activeOpacity={0.8} onPress={() => {navigation.navigate('Signup')}}>
           <Text style={styles.changePassword}>Change Password</Text>
         </TouchableOpacity>
-          
       </View>
+      <Modal isVisible={errorModalVisible} onBackdropPress={() => setErrorModalVisible(false)}>
+        <View style={styles.errorModalContainer}>
+          <Text style={styles.errorTitle}>Log In Error</Text>
+          <Text style={styles.errorMessage}>{errorMessage}</Text>
+          <TouchableOpacity
+            style={styles.errorCloseButton}
+            onPress={() => setErrorModalVisible(false)}
+          >
+            <Text style={styles.errorCloseButtonText}>Close</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -103,7 +135,7 @@ export default function Login() {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.background,
-    height: '100%',
+    height: hp(100),
   },
   login: {
     fontSize: 20,
@@ -146,7 +178,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     marginHorizontal: 30,
-    top: 330,
+    top: 250,
   },
   changePassword: {
     color: colors.btn,
@@ -168,5 +200,33 @@ const styles = StyleSheet.create({
   errorText: {
     color: 'red',
     fontSize: 12,
-  }
+  },
+  errorModalContainer: {
+    backgroundColor: colors.background,
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  errorTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.primary,
+    marginBottom: 10,
+  },
+  errorMessage: {
+    fontSize: 16,
+    color: colors.secondary,
+    marginBottom: 20,
+  },
+  errorCloseButton: {
+    backgroundColor: colors.btn,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  errorCloseButtonText: {
+    color: colors.primary,
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
 });

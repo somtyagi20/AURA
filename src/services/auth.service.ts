@@ -15,11 +15,10 @@ export const checkUserAuthenticate = async (response: TServerResponse) => {
           const user = {
             id: response.data?._id,
             phone_number: response.data?.phone_number,
-            email: response.data?.email,
             name: response.data?.name,
           };
   
-          if (user.id && user.phone_number && user.name && user.email) {
+          if (user.id && user.phone_number && user.name) {
             store.dispatch(login({ token, user }));
           } else {
             console.error('User data is incomplete:', response.data);
