@@ -1,19 +1,15 @@
-import React from 'react';
-import {
-  Text,
-  View,
-} from 'react-native';
-import { Provider } from 'react-redux';
-import { store } from './src/app/store';
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import Otpscreen from './src/screens/otp-screen/Otpscreen'
 
-function App(): React.JSX.Element {
+export default function App() {
   return (
-    <Provider store={store}>
+    <SafeAreaView style={{height:100}}>
       <View>
-        <Text>Hii</Text>
-      </View>
-    </Provider>
-  );
+      <Otpscreen  />
+    </View>
+    </SafeAreaView>
+  )
 }
 
-export default App;
+const styles = StyleSheet.create({})
