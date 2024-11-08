@@ -1,5 +1,5 @@
 // App.js
-import React from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   View,
@@ -13,25 +13,32 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import LinearGradient from 'react-native-linear-gradient';
 
 const HomeScreen = () => {
-  const tabs = [
-    { icon: 'home', active: true },
-    { icon: 'camera', active: false },
-    { icon: 'view-grid', active: false },
-    { icon: 'account', active: false },
-    { icon: 'bell', active: false },
-  ];
+
+  const [devices, setDevices] = useState({
+    smartLamp1: true,
+    smartLamp2: false,
+    airConditioner: false,
+    smartFan: false,
+  });
+
+  const toggleDevice = (device) => {
+    setDevices(prev => ({
+      ...prev,
+      [device]: !prev[device]
+    }));
+  };
 
   const rooms = [
     { name: 'Living Room (3)', active: true },
     { name: 'Kitchen', active: false },
     { name: 'Bedroom', active: false },
-    { name: 'Bedroom', active: false },
+    { name: 'Dinning Room', active: false },
   ];
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000" />
-      
+
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.greeting}>
@@ -51,13 +58,13 @@ const HomeScreen = () => {
           <Icon name="map-marker" size={20} color="white" />
           <Text style={styles.locationText}>Indore, Madhya Pradesh</Text>
         </View>
-        
+
         <View style={styles.weatherMain}>
           <View style={styles.weatherInfo}>
             <Text style={styles.weatherStatus}>Partly Cloudy</Text>
             <Icon name="weather-partly-cloudy" size={24} color="white" />
           </View>
-          
+
           <View style={styles.weatherDetails}>
             <View style={styles.weatherDetail}>
               <Text style={styles.weatherValue}>26°C</Text>
@@ -87,8 +94,8 @@ const HomeScreen = () => {
         </View>
 
         {/* Room Selection */}
-        <ScrollView 
-          horizontal 
+        <ScrollView
+          horizontal
           showsHorizontalScrollIndicator={false}
           style={styles.roomsScroll}
         >
@@ -120,10 +127,13 @@ const HomeScreen = () => {
               <Text style={styles.deviceCount}>2 Devices</Text>
             </View>
             <Text style={styles.deviceName}>Smart lamp</Text>
-            <Text style={styles.deviceName}>Smart lamp</Text>
             <View style={styles.deviceStatus}>
               <Text style={styles.statusText}>ON</Text>
-              <View style={styles.statusIndicator} />
+              <Icon 
+                name="power" 
+                size={20} 
+                color={devices.airConditioner ? '#fff' : '#8E8E93'} 
+              />
             </View>
           </View>
 
@@ -136,23 +146,14 @@ const HomeScreen = () => {
             <Text style={styles.deviceName}>conditioner</Text>
             <View style={styles.deviceStatus}>
               <Text style={styles.statusText}>OFF</Text>
-              <View style={[styles.statusIndicator, styles.statusOff]} />
+              <Icon 
+                name="power" 
+                size={20} 
+                color={devices.airConditioner ? '#fff' : '#8E8E93'} 
+              />
             </View>
           </View>
         </View>
-      </View>
-
-      {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        {tabs.map((tab, index) => (
-          <TouchableOpacity key={index} style={styles.navItem}>
-            <Icon
-              name={tab.icon}
-              size={24}
-              color={tab.active ? '#7367F0' : '#666'}
-            />
-          </TouchableOpacity>
-        ))}
       </View>
     </SafeAreaView>
   );
@@ -307,7 +308,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 15,
+    marginTop: 'auto',
   },
   statusText: {
     color: 'white',

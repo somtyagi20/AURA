@@ -1,11 +1,24 @@
-import React from 'react';
-import { useAppSelector } from '../../app/hooks';
-import { RootState } from '../../app/store';
+import React, { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import AuthNavigator from '../auth-navigator/AuthNavigator';
-import { TabNavigator } from '../tab-navigator/TabNavigator';
+import TabNavigator from '../tab-navigator/TabNavigator';
+import { useCheckAuthenticated } from '../../hooks/auth/useCheckAuthenticated';
+import { authenticating } from '../../app/reducers/login/login-reducer';
+import { checkUserAuthenticate } from '../../services/auth.service';
+
 
 const AppNavigator = () => {
-    const loginState = useAppSelector((state: RootState) => state.login.status);
+    const authenticateQuery = useCheckAuthenticated();
+    const dispatch = useAppDispatch();
+    const loginState = useAppSelector(state => state.login.status);
+
+    useEffect(() => {
+      if (authenticateQuery.isLoading) {
+        dispatch(authenticating());
+      } else if (authenticateQuery.isSuccess && authenticateQuery.data) {
+        checkUserAuthenticate(authenticateQuery.data);
+      }
+    }, [authenticateQuery.isLoading, authenticateQuery.isSuccess, authenticateQuery.data, dispatch]);
     switch(loginState){
         case 'authenticating':
             return <AuthNavigator/>;

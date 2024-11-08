@@ -2458,7 +2458,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-navigation/bottom-tabs@npm:^6.6.1":
+"@react-navigation/bottom-tabs@npm:^6.4.0":
   version: 6.6.1
   resolution: "@react-navigation/bottom-tabs@npm:6.6.1"
   dependencies:
@@ -2503,7 +2503,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-navigation/native-stack@npm:^6.11.0":
+"@react-navigation/native-stack@npm:^6.9.0":
   version: 6.11.0
   resolution: "@react-navigation/native-stack@npm:6.11.0"
   dependencies:
@@ -2519,7 +2519,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-navigation/native@npm:^6.1.18":
+"@react-navigation/native@npm:^6.1.0":
   version: 6.1.18
   resolution: "@react-navigation/native@npm:6.1.18"
   dependencies:
@@ -2608,6 +2608,35 @@ __metadata:
   dependencies:
     "@sinonjs/commons": ^3.0.0
   checksum: 614d30cb4d5201550c940945d44c9e0b6d64a888ff2cd5b357f95ad6721070d6b8839cd10e15b76bf5e14af0bcc1d8f9ec00d49a46318f1f669a4bec1d7f3148
+  languageName: node
+  linkType: hard
+
+"@tanstack/eslint-plugin-query@npm:^5.60.1":
+  version: 5.60.1
+  resolution: "@tanstack/eslint-plugin-query@npm:5.60.1"
+  dependencies:
+    "@typescript-eslint/utils": ^8.3.0
+  peerDependencies:
+    eslint: ^8.57.0 || ^9.0.0
+  checksum: 58c41ba95bf3ba4c8a4ed11a1d95576c721b1ca1fe0e241ea790506925536671c8be323006f07fe1ed187da13e22355d4ba402a9a9f1a12f104ab914dc85f2e7
+  languageName: node
+  linkType: hard
+
+"@tanstack/query-core@npm:5.59.20":
+  version: 5.59.20
+  resolution: "@tanstack/query-core@npm:5.59.20"
+  checksum: ed836033c7f34a61e7f152da1067ec170e36e861dc591e2a068f73918bcc641bb50ce90dc3b8d12e047f63f70b2842f72e3328d649c841f5c4ea51fdb95e454b
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:^5.59.20":
+  version: 5.59.20
+  resolution: "@tanstack/react-query@npm:5.59.20"
+  dependencies:
+    "@tanstack/query-core": 5.59.20
+  peerDependencies:
+    react: ^18 || ^19
+  checksum: 2f4740f13dc9cbbf3c4175ac2e4e2788d2df8643940dfd9cc62c8c3d7c8842b2aeda0f58b99cdd2d525c0c78d759a1adfb3118599ab64bd3ce7ce4f027ee6f6b
   languageName: node
   linkType: hard
 
@@ -2724,6 +2753,13 @@ __metadata:
   version: 15.7.13
   resolution: "@types/prop-types@npm:15.7.13"
   checksum: 8935cad87c683c665d09a055919d617fe951cb3b2d5c00544e3a913f861a2bd8d2145b51c9aa6d2457d19f3107ab40784c40205e757232f6a80cc8b1c815513c
+  languageName: node
+  linkType: hard
+
+"@types/react-native-orientation@npm:^5.0.4":
+  version: 5.0.4
+  resolution: "@types/react-native-orientation@npm:5.0.4"
+  checksum: aa7e54a686f4e378032fc71527566b5e4a9e0911810e8266b12097d3cffb5de9327e8ad7324dee172e6280161a850c66c7da2074bf1f526f39deb3012f6fc04d
   languageName: node
   linkType: hard
 
@@ -2881,6 +2917,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@typescript-eslint/scope-manager@npm:8.13.0":
+  version: 8.13.0
+  resolution: "@typescript-eslint/scope-manager@npm:8.13.0"
+  dependencies:
+    "@typescript-eslint/types": 8.13.0
+    "@typescript-eslint/visitor-keys": 8.13.0
+  checksum: 7c80fddb07b3b4e77f05c3ad8aec9a4dda553638188618bc993352ed2b39a8db464c8f28dad8dfc4d82e06ac793fa83a9983198231a7a4711a0dc6f0955b8ad5
+  languageName: node
+  linkType: hard
+
 "@typescript-eslint/type-utils@npm:7.18.0":
   version: 7.18.0
   resolution: "@typescript-eslint/type-utils@npm:7.18.0"
@@ -2909,6 +2955,13 @@ __metadata:
   version: 7.18.0
   resolution: "@typescript-eslint/types@npm:7.18.0"
   checksum: 7df2750cd146a0acd2d843208d69f153b458e024bbe12aab9e441ad2c56f47de3ddfeb329c4d1ea0079e2577fea4b8c1c1ce15315a8d49044586b04fedfe7a4d
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/types@npm:8.13.0":
+  version: 8.13.0
+  resolution: "@typescript-eslint/types@npm:8.13.0"
+  checksum: 361489858f07cba8a331d360d73b51a174a902612fd7bb212560a4d7dc2bd704daf252debc410b09e92217aedca9076c3b2892ec76bcf83a7e1575a175942c2e
   languageName: node
   linkType: hard
 
@@ -2949,6 +3002,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@typescript-eslint/typescript-estree@npm:8.13.0":
+  version: 8.13.0
+  resolution: "@typescript-eslint/typescript-estree@npm:8.13.0"
+  dependencies:
+    "@typescript-eslint/types": 8.13.0
+    "@typescript-eslint/visitor-keys": 8.13.0
+    debug: ^4.3.4
+    fast-glob: ^3.3.2
+    is-glob: ^4.0.3
+    minimatch: ^9.0.4
+    semver: ^7.6.0
+    ts-api-utils: ^1.3.0
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 43d33fa341b44e11f3dcd627ea38ebe4433320e569d4a502e44acb370f3a6f64609cf4f98f874eefc161aa42487e35b6e499e74ec422f3c629c7bba155c3d88a
+  languageName: node
+  linkType: hard
+
 "@typescript-eslint/utils@npm:7.18.0":
   version: 7.18.0
   resolution: "@typescript-eslint/utils@npm:7.18.0"
@@ -2981,6 +3053,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@typescript-eslint/utils@npm:^8.3.0":
+  version: 8.13.0
+  resolution: "@typescript-eslint/utils@npm:8.13.0"
+  dependencies:
+    "@eslint-community/eslint-utils": ^4.4.0
+    "@typescript-eslint/scope-manager": 8.13.0
+    "@typescript-eslint/types": 8.13.0
+    "@typescript-eslint/typescript-estree": 8.13.0
+  peerDependencies:
+    eslint: ^8.57.0 || ^9.0.0
+  checksum: 6d6ec83c4806aeeba94777bf82230a2cde9bd5aa90969ac73cd2e3ba22eb6b1e4f7d3710dbe13a1a1734857c3cd3e8522bb043a04e85cea583c91618a28cc200
+  languageName: node
+  linkType: hard
+
 "@typescript-eslint/visitor-keys@npm:5.62.0":
   version: 5.62.0
   resolution: "@typescript-eslint/visitor-keys@npm:5.62.0"
@@ -2998,6 +3084,16 @@ __metadata:
     "@typescript-eslint/types": 7.18.0
     eslint-visitor-keys: ^3.4.3
   checksum: 6e806a7cdb424c5498ea187a5a11d0fef7e4602a631be413e7d521e5aec1ab46ba00c76cfb18020adaa0a8c9802354a163bfa0deb74baa7d555526c7517bb158
+  languageName: node
+  linkType: hard
+
+"@typescript-eslint/visitor-keys@npm:8.13.0":
+  version: 8.13.0
+  resolution: "@typescript-eslint/visitor-keys@npm:8.13.0"
+  dependencies:
+    "@typescript-eslint/types": 8.13.0
+    eslint-visitor-keys: ^3.4.3
+  checksum: eeefa461dbf60c967bcc2905bfd80fd6f5d015e8139c7d7a44a46d8ffa9339089a3a0eb937423e3c59aff306c238ed8821bda935db1da28ae063f2ce1deafe08
   languageName: node
   linkType: hard
 
@@ -3345,11 +3441,14 @@ __metadata:
     "@react-native/eslint-config": 0.75.3
     "@react-native/metro-config": 0.75.3
     "@react-native/typescript-config": ^0.75.4
-    "@react-navigation/bottom-tabs": ^6.6.1
-    "@react-navigation/native": ^6.1.18
-    "@react-navigation/native-stack": ^6.11.0
+    "@react-navigation/bottom-tabs": ^6.4.0
+    "@react-navigation/native": ^6.1.0
+    "@react-navigation/native-stack": ^6.9.0
     "@reduxjs/toolkit": ^2.2.7
+    "@tanstack/eslint-plugin-query": ^5.60.1
+    "@tanstack/react-query": ^5.59.20
     "@types/react": ^18.2.6
+    "@types/react-native-orientation": ^5.0.4
     "@types/react-native-vector-icons": ^6.4.18
     "@types/react-native-version-check": ^3.4.8
     "@types/react-test-renderer": ^18.0.0
@@ -3362,8 +3461,8 @@ __metadata:
     react-hook-form: ^7.53.0
     react-native: 0.75.3
     react-native-config: ^1.5.3
-    react-native-country-codes-picker: ^2.3.5
     react-native-linear-gradient: ^2.8.3
+    react-native-modal: ^13.0.1
     react-native-responsive-screen: ^1.4.2
     react-native-safe-area-context: ^4.14.0
     react-native-screens: ^3.35.0
@@ -8082,7 +8181,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -8205,6 +8304,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-animatable@npm:1.3.3":
+  version: 1.3.3
+  resolution: "react-native-animatable@npm:1.3.3"
+  dependencies:
+    prop-types: ^15.7.2
+  checksum: eb35821de36ae4eb00f97d99fc22ed79bd017248092ff1299f9d46a7ab946de16d2e6d6bfbf4cab5ef77d0d3bf47684aec761a7670ec7d36aae8d77ab8ddd171
+  languageName: node
+  linkType: hard
+
 "react-native-config@npm:^1.5.3":
   version: 1.5.3
   resolution: "react-native-config@npm:1.5.3"
@@ -8217,16 +8325,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-country-codes-picker@npm:^2.3.5":
-  version: 2.3.5
-  resolution: "react-native-country-codes-picker@npm:2.3.5"
-  peerDependencies:
-    react: "*"
-    react-native: "*"
-  checksum: 3b07665ecdf3b54ca60233e6e2540b98aa24734970bae920d0c3c9a36727b32b852f01a2ac11a0cebe4e2ef0b9fc61ad10c5bd6eeb7b4c724f0188c07d8b8420
-  languageName: node
-  linkType: hard
-
 "react-native-linear-gradient@npm:^2.8.3":
   version: 2.8.3
   resolution: "react-native-linear-gradient@npm:2.8.3"
@@ -8234,6 +8332,19 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: f980d324e551bbc475c6406bdc5250a08242020cbe653412fa169bbdf51e28a502e225de105b4d696d6a1a1b733d44782469020f4936d8b3ce0e2c78e51cf58f
+  languageName: node
+  linkType: hard
+
+"react-native-modal@npm:^13.0.1":
+  version: 13.0.1
+  resolution: "react-native-modal@npm:13.0.1"
+  dependencies:
+    prop-types: ^15.6.2
+    react-native-animatable: 1.3.3
+  peerDependencies:
+    react: "*"
+    react-native: ">=0.65.0"
+  checksum: 15985fd6aaae7a2134ec1003c63abd384f4a17beabd0a80b74033c98eccee29161aa07150f479373fb43106cfb33b5837b7a4f1d2b721ff03b3727490c830a07
   languageName: node
   linkType: hard
 

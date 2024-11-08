@@ -1,5 +1,5 @@
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import React from 'react';
+import React, { useState } from 'react';
 import { colors } from '../../colors';
 import LinearGradient from 'react-native-linear-gradient';
 import { Controller, useForm } from 'react-hook-form';
@@ -7,15 +7,32 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { signUpValidationSchema } from '../../validations/auth-validations/signup-validation';
 import { useNavigation } from '@react-navigation/native';
 import { TAuthNavigator } from '../../navigation/auth-navigator/AuthNavigator';
+import { useSignUpMutation } from '../../hooks/auth/useSignUpMutation';
+import Modal from 'react-native-modal';
 
 export default function Signup(){
+  const signUpMutation = useSignUpMutation();
   const navigation = useNavigation<TAuthNavigator>();
   const { control, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(signUpValidationSchema),
     mode: 'onBlur',
   });
-  const onSubmit = (data) => {
-    navigation.navigate('Home');
+
+  const [errorModalVisible, setErrorModalVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const onSubmit = async ( data:SignUp ) => {
+    try {
+      await signUpMutation.mutateAsync(data);
+    } catch (error:any) {
+      if (error) {
+        setErrorMessage(error?.details?.message);
+        setErrorModalVisible(true);
+      } else {
+        setErrorMessage('There was a problem signing up. Please try again.');
+        setErrorModalVisible(true);
+      }
+    }
   };
   return (
       <View style={styles.container}>
@@ -103,10 +120,22 @@ export default function Signup(){
       </TouchableOpacity>
       <View style={styles.alreadyHadAnAccountContainer}>
         <Text>Already had an account? </Text>
-        <TouchableOpacity activeOpacity={0.8} onPress={() => {navigation.navigate('Login')}}>
+        <TouchableOpacity activeOpacity={0.8} onPress={() => {navigation.navigate('Login');}}>
           <Text style={styles.alreadyHadAnAccount}>Login</Text>
         </TouchableOpacity>
       </View>
+      <Modal isVisible={errorModalVisible} onBackdropPress={() => setErrorModalVisible(false)}>
+        <View style={styles.errorModalContainer}>
+          <Text style={styles.errorTitle}>Sign Up Error</Text>
+          <Text style={styles.errorMessage}>{errorMessage}</Text>
+          <TouchableOpacity
+            style={styles.errorCloseButton}
+            onPress={() => setErrorModalVisible(false)}
+          >
+            <Text style={styles.errorCloseButtonText}>Close</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
       </View>
   );
 }
@@ -175,5 +204,33 @@ const styles = StyleSheet.create({
       errorText: {
         color: 'red',
         fontSize: 12,
+      },
+      errorModalContainer: {
+        backgroundColor: colors.background,
+        padding: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+      },
+      errorTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: colors.primary,
+        marginBottom: 10,
+      },
+      errorMessage: {
+        fontSize: 16,
+        color: colors.secondary,
+        marginBottom: 20,
+      },
+      errorCloseButton: {
+        backgroundColor: colors.btn,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        borderRadius: 5,
+      },
+      errorCloseButtonText: {
+        color: colors.primary,
+        fontSize: 16,
+        fontWeight: 'bold',
       },
 });

@@ -6,13 +6,11 @@ import {
 import SplashScreen from '../../screens/splash-screen/SplashScreen';
 import Signup from '../../screens/signup-screen/Signup';
 import Login from '../../screens/login-screen/Login';
-import HomeScreen from '../../screens/home-screen/HomeScreen';
 
 export type AuthStackParamList = {
     SplashScreen: undefined;
     Signup: undefined;
     Login: undefined;
-    Home: undefined;
    };
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
@@ -25,7 +23,6 @@ const AuthNavigator = () => {
         <Stack.Screen name="SplashScreen" component={SplashScreen} />
         <Stack.Screen name="Signup" component={Signup} />
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Home" component={HomeScreen} />
         </Stack.Navigator>
     );
 };

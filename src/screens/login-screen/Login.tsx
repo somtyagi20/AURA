@@ -12,7 +12,9 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { loginValidationSchema } from '../../validations/auth-validations/login-validation';
 import { useNavigation } from '@react-navigation/native';
 import { TAuthNavigator } from '../../navigation/auth-navigator/AuthNavigator';
-
+import { TTabNavigator } from '../../navigation/tab-navigator/TabNavigator';
+import { useLoginMutation } from '../../hooks/auth/useLoginMutation';
+import Modal from 'react-native-modal';
 
 export default function Login() {
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -22,10 +24,25 @@ export default function Login() {
     mode: 'onBlur',
   });
 
-  const navigation = useNavigation<TAuthNavigator>();
+  const [errorModalVisible, setErrorModalVisible] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const onSubmit = (data) => {
-    navigation.navigate('Home');
+  const loginMutation = useLoginMutation();
+
+  const navigation = useNavigation<TTabNavigator>();
+
+  const onSubmit = async(data:Login) => {
+    try {
+      await loginMutation.mutateAsync(data);
+    } catch (error:any) {
+      if (error) {
+        setErrorMessage(error?.details?.message);
+        setErrorModalVisible(true);
+      } else {
+        setErrorMessage('There was a problem signing up. Please try again.');
+        setErrorModalVisible(true);
+      }
+    }
   };
 
   return (
@@ -99,6 +116,18 @@ export default function Login() {
           <Text style={styles.changePassword}>Change Password</Text>
         </TouchableOpacity>
       </View>
+      <Modal isVisible={errorModalVisible} onBackdropPress={() => setErrorModalVisible(false)}>
+        <View style={styles.errorModalContainer}>
+          <Text style={styles.errorTitle}>Log In Error</Text>
+          <Text style={styles.errorMessage}>{errorMessage}</Text>
+          <TouchableOpacity
+            style={styles.errorCloseButton}
+            onPress={() => setErrorModalVisible(false)}
+          >
+            <Text style={styles.errorCloseButtonText}>Close</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -171,5 +200,33 @@ const styles = StyleSheet.create({
   errorText: {
     color: 'red',
     fontSize: 12,
+  },
+  errorModalContainer: {
+    backgroundColor: colors.background,
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  errorTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: colors.primary,
+    marginBottom: 10,
+  },
+  errorMessage: {
+    fontSize: 16,
+    color: colors.secondary,
+    marginBottom: 20,
+  },
+  errorCloseButton: {
+    backgroundColor: colors.btn,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+  },
+  errorCloseButtonText: {
+    color: colors.primary,
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
