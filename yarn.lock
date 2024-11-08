@@ -3364,6 +3364,7 @@ __metadata:
     react-native-config: ^1.5.3
     react-native-country-codes-picker: ^2.3.5
     react-native-linear-gradient: ^2.8.3
+    react-native-otp-entry: ^1.7.3
     react-native-responsive-screen: ^1.4.2
     react-native-safe-area-context: ^4.14.0
     react-native-screens: ^3.35.0
@@ -8234,6 +8235,16 @@ __metadata:
     react: "*"
     react-native: "*"
   checksum: f980d324e551bbc475c6406bdc5250a08242020cbe653412fa169bbdf51e28a502e225de105b4d696d6a1a1b733d44782469020f4936d8b3ce0e2c78e51cf58f
+  languageName: node
+  linkType: hard
+
+"react-native-otp-entry@npm:^1.7.3":
+  version: 1.7.3
+  resolution: "react-native-otp-entry@npm:1.7.3"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 561bd593c6a2281b769051c38c240cc3c4d2a99be84cd20e5d9c9395003a423ff862d675285128dbfc1e2d8e9a52b52917944b06a0c4960f0a6d9e0a4a54902a
   languageName: node
   linkType: hard
 
