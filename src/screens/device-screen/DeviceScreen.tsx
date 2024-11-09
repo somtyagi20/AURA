@@ -50,7 +50,7 @@ const DevicesScreen = () => {
     }));
 
     // Emit the control event to the backend
-    socket.emit('controlDevice', { device, action: newStatus ? 'on' : 'off' });
+    socket.emit('controlLed', { action: newStatus ? 'on' : 'off' });
   };
 
   const toggleDoorLock = () => {
@@ -58,7 +58,7 @@ const DevicesScreen = () => {
     setDoorLocked(newStatus);
 
     // Emit the control event to the backend
-    socket.emit('controlDoorLock', { action: newStatus ? 'lock' : 'unlock' });
+    socket.emit('controlLock', { action: newStatus ? 'on' : 'off' });
   };
 
   return (
