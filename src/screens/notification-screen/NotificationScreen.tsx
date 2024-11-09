@@ -5,7 +5,7 @@ import io from 'socket.io-client';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
-const socket = io('http://192.168.119.181:3000'); // Adjust the URL to your backend
+const socket = io('http://192.168.255.181:3000'); // Adjust the URL to your backend
 
 const NotificationsScreen = () => {
   const [notifications, setNotifications] = useState([
