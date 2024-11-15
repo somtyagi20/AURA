@@ -197,8 +197,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'row',
-        marginHorizontal: 30,
-        top: 75,
+        marginTop: 'auto',
       },
       alreadyHadAnAccount: {
         color: colors.btn,

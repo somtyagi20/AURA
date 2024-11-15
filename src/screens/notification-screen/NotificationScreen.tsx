@@ -3,11 +3,13 @@ import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, Text, StyleSheet, FlatList, StatusBar } from 'react-native';
 import io from 'socket.io-client';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useAppSelector } from '../../app/hooks';
 
 
 const socket = io('http://192.168.137.62:3000'); // Adjust the URL to your backend
 
 const NotificationsScreen = () => {
+  const user = useAppSelector(state => state.login.user);
   const [notifications, setNotifications] = useState([
   ]);
 
@@ -70,7 +72,7 @@ const NotificationsScreen = () => {
       <View style={styles.header}>
         <Text style={styles.headerText}>Notifications</Text>
         <View style={styles.profileButton}>
-          <Text style={styles.profileButtonText}>R</Text>
+          <Text style={styles.profileButtonText}>{user.name[0]}</Text>
         </View>
       </View>
       <FlatList

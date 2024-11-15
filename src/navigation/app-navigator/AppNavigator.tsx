@@ -8,17 +8,17 @@ import { checkUserAuthenticate } from '../../services/auth.service';
 
 
 const AppNavigator = () => {
-    // const authenticateQuery = useCheckAuthenticated();
-    // const dispatch = useAppDispatch();
+    const authenticateQuery = useCheckAuthenticated();
+    const dispatch = useAppDispatch();
     const loginState = useAppSelector(state => state.login.status);
 
-    // useEffect(() => {
-    //   if (authenticateQuery.isLoading) {
-    //     dispatch(authenticating());
-    //   } else if (authenticateQuery.isSuccess && authenticateQuery.data) {
-    //     checkUserAuthenticate(authenticateQuery.data);
-    //   }
-    // }, [authenticateQuery.isLoading, authenticateQuery.isSuccess, authenticateQuery.data, dispatch]);
+    useEffect(() => {
+      if (authenticateQuery.isLoading) {
+        dispatch(authenticating());
+      } else if (authenticateQuery.isSuccess && authenticateQuery.data) {
+        checkUserAuthenticate(authenticateQuery.data);
+      }
+    }, [authenticateQuery.isLoading, authenticateQuery.isSuccess, authenticateQuery.data, dispatch]);
     switch(loginState){
         case 'authenticating':
             return <AuthNavigator/>;

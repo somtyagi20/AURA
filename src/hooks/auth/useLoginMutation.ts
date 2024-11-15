@@ -40,5 +40,12 @@ export const useLoginMutation = () => {
         );
       }
     },
+    onError: (error) => {
+      Alert.alert(
+        'Login Failed',
+        error.message || 'Something went wrong',
+        [{text: 'OK', onPress: () => console.log('OK Pressed')}],
+      );
+    },
   });
 };

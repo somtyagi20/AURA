@@ -11,9 +11,10 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import LinearGradient from 'react-native-linear-gradient';
+import { useAppSelector } from '../../app/hooks';
 
 const HomeScreen = () => {
-
+  const user = useAppSelector(state => state.login.user);
   const [devices, setDevices] = useState({
     smartLamp1: true,
     smartLamp2: false,
@@ -44,7 +45,7 @@ const HomeScreen = () => {
         <View style={styles.greeting}>
           <Text style={styles.greetingText}>Hello Som!</Text>
           <View style={styles.avatar}>
-            <Text style={styles.avatarText}>S</Text>
+            <Text style={styles.avatarText}>{user?.name[0]}</Text>
           </View>
         </View>
       </View>
