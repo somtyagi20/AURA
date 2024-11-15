@@ -13,7 +13,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import io from 'socket.io-client';
 
-const socket = io('http://192.168.255.181:3000'); // Adjust the URL to your backend
+const socket = io('http://192.168.137.62:3000'); // Adjust the URL to your backend
 
 const DevicesScreen = () => {
   const [selectedRoom, setSelectedRoom] = useState('Living Room');
