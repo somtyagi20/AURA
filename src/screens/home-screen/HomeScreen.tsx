@@ -42,9 +42,9 @@ const HomeScreen = () => {
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.greeting}>
-          <Text style={styles.greetingText}>Hello Rachael!</Text>
+          <Text style={styles.greetingText}>Hello Som!</Text>
           <View style={styles.avatar}>
-            <Text style={styles.avatarText}>R</Text>
+            <Text style={styles.avatarText}>S</Text>
           </View>
         </View>
       </View>
