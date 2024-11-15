@@ -26,6 +26,9 @@ export default function Signup(){
       await signUpMutation.mutateAsync(data);
     } catch (error:any) {
       if (error) {
+        console.log('====================================');
+        console.log(error);
+        console.log('====================================');
         setErrorMessage(error?.details?.message);
         setErrorModalVisible(true);
       } else {

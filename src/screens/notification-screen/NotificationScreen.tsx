@@ -1,75 +1,68 @@
 // NotificationsScreen.js
-import React from 'react';
-import {
-  SafeAreaView,
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  StatusBar,
-} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView, View, Text, StyleSheet, FlatList, StatusBar } from 'react-native';
+import io from 'socket.io-client';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const NotificationsScreen = () => {
-  const notifications = [
-    {
-      id: 1,
-      type: 'motion',
-      location: 'Living room Camera 2',
-      time: 'A few seconds ago',
-    },
-    {
-      id: 2,
-      type: 'motion',
-      location: 'Living room Camera 1',
-      time: '11 min ago',
-    },
-    {
-      id: 3,
-      type: 'smoke',
-      location: 'Smoke Detection',
-      time: '24 September 2024',
-    },
-  ];
 
-  const renderNotification = (notification) => {
-    return (
-      <View key={notification.id} style={styles.notificationCard}>
-        <View>
-          <View style={styles.notificationHeader}>
-            {notification.type === 'motion' && (
-              <Text style={styles.notificationTitle}>
-                Motion Detected: <Text style={styles.notificationLocation}>{notification.location}</Text>
-              </Text>
-            )}
-            {notification.type === 'smoke' && (
-              <Text style={styles.notificationTitle}>
-                {notification.location}
-              </Text>
-            )}
-          </View>
-          <Text style={styles.notificationTime}>{notification.time}</Text>
-        </View>
-      </View>
-    );
-  };
+const socket = io('http://192.168.255.181:3000'); // Adjust the URL to your backend
+
+const NotificationsScreen = () => {
+  const [notifications, setNotifications] = useState([
+  ]);
+
+  useEffect(() => {
+    socket.on('connect', () => {
+      console.log('Connected to backend');
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Disconnected from backend');
+    });
+
+    socket.on('smokeAlert', (data) => {
+      const newNotification = {
+        id: notifications.length + 1,
+        type: 'smoke',
+        location: 'Smoke Detection',
+        time: new Date().toLocaleString(),
+        value: data.value,
+      };
+      setNotifications((prevNotifications) => [newNotification, ...prevNotifications]);
+    });
+
+    return () => {
+      socket.off('connect');
+      socket.off('disconnect');
+      socket.off('smokeAlert');
+    };
+  }, [notifications]);
+
+  const renderItem = ({ item }) => (
+    <View style={styles.notificationCard}>
+      <Text style={styles.notificationType}>{item.type.toUpperCase()}</Text>
+      <Text style={styles.notificationLocation}>{item.location}</Text>
+      <Text style={styles.notificationTime}>{item.time}</Text>
+      {item.type === 'smoke' && (
+        <Text style={styles.notificationValue}>Smoke Level: {item.value}</Text>
+      )}
+    </View>
+  );
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" />
-
-      {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerText}>Notifications</Text>
         <View style={styles.profileButton}>
           <Text style={styles.profileButtonText}>R</Text>
         </View>
       </View>
-
-      {/* Notifications List */}
-      <ScrollView style={styles.notificationsList}>
-        {notifications.map(renderNotification)}
-      </ScrollView>
+      <FlatList
+        data={notifications}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
+      />
     </SafeAreaView>
   );
 };
@@ -104,54 +97,31 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
-  notificationsList: {
-    flex: 1,
-    paddingHorizontal: 16,
-  },
   notificationCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 12,
+    backgroundColor: '#1E1E1E',
+    padding: 20,
+    marginVertical: 10,
+    marginHorizontal: 20,
+    borderRadius: 10,
   },
-  notificationHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  notificationTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#000000',
+  notificationType: {
+    color: '#FFF',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
   notificationLocation: {
-    fontWeight: '400',
+    color: '#FFF',
+    fontSize: 16,
   },
   notificationTime: {
-    fontSize: 14,
     color: '#8E8E93',
+    fontSize: 14,
     marginTop: 4,
   },
-  bottomNav: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    paddingVertical: 12,
-    borderTopWidth: 1,
-    borderTopColor: '#2C2C2E',
-  },
-  notificationBadge: {
-    position: 'relative',
-  },
-  badge: {
-    position: 'absolute',
-    top: -4,
-    right: -4,
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#4CAF50',
-    borderWidth: 1,
-    borderColor: '#000000',
+  notificationValue: {
+    color: '#FFF',
+    fontSize: 14,
+    marginTop: 4,
   },
 });
 

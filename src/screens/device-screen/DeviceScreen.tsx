@@ -1,5 +1,5 @@
 // DevicesScreen.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   View,
@@ -11,6 +11,9 @@ import {
 
 // Updated import for MaterialCommunityIcons
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import io from 'socket.io-client';
+
+const socket = io('http://192.168.255.181:3000'); // Adjust the URL to your backend
 
 const DevicesScreen = () => {
   const [selectedRoom, setSelectedRoom] = useState('Living Room');
@@ -20,14 +23,42 @@ const DevicesScreen = () => {
     airConditioner: false,
     smartFan: false,
   });
+  const [doorLocked, setDoorLocked] = useState(false);
 
   const rooms = ['All Devices', 'Living Room', 'Bedroom'];
 
+  useEffect(() => {
+    socket.on('connect', () => {
+      console.log('Connected to backend');
+    });
+
+    socket.on('disconnect', () => {
+      console.log('Disconnected from backend');
+    });
+
+    return () => {
+      socket.off('connect');
+      socket.off('disconnect');
+    };
+  }, []);
+
   const toggleDevice = (device) => {
-    setDevices(prev => ({
+    const newStatus = !devices[device];
+    setDevices((prev) => ({
       ...prev,
-      [device]: !prev[device]
+      [device]: newStatus,
     }));
+
+    // Emit the control event to the backend
+    socket.emit('controlLed', { action: newStatus ? 'on' : 'off' });
+  };
+
+  const toggleDoorLock = () => {
+    const newStatus = !doorLocked;
+    setDoorLocked(newStatus);
+
+    // Emit the control event to the backend
+    socket.emit('controlLock', { action: newStatus ? 'on' : 'off' });
   };
 
   return (
@@ -79,7 +110,7 @@ const DevicesScreen = () => {
             style={styles.deviceItem}
             onPress={() => toggleDevice('smartLamp1')}
           >
-            <Text style={styles.deviceName}>Smart lamp</Text>
+            <Text style={styles.deviceName}>Smart Lamp 1</Text>
             <View style={[styles.toggle, devices.smartLamp1 && styles.toggleActive]}>
               <Icon 
                 name="power" 
@@ -93,7 +124,7 @@ const DevicesScreen = () => {
             style={styles.deviceItem}
             onPress={() => toggleDevice('smartLamp2')}
           >
-            <Text style={styles.deviceName}>Smart lamp</Text>
+            <Text style={styles.deviceName}>Smart Lamp 2</Text>
             <View style={[styles.toggle, devices.smartLamp2 && styles.toggleActive]}>
               <Icon 
                 name="power" 
@@ -128,7 +159,7 @@ const DevicesScreen = () => {
         </View>
 
         {/* Smart Fan Section */}
-        <View style={styles.deviceSection}>
+        {/* <View style={styles.deviceSection}>
           <View style={styles.deviceHeader}>
             <Icon name="fan" size={24} color="#fff" />
             <Text style={styles.deviceTitle}>Smart Fan</Text>
@@ -145,6 +176,28 @@ const DevicesScreen = () => {
                 name="power" 
                 size={20} 
                 color={devices.smartFan ? '#fff' : '#8E8E93'} 
+              />
+            </View>
+          </TouchableOpacity>
+        </View> */}
+
+        {/* Door Lock Section */}
+        <View style={styles.lockSection}>
+          <View style={styles.deviceHeader}>
+            <Icon name="lock-outline" size={24} color="#fff" />
+            <Text style={styles.deviceTitle}>Door Lock</Text>
+          </View>
+
+          <TouchableOpacity 
+            style={styles.deviceItem}
+            onPress={toggleDoorLock}
+          >
+            <Text style={styles.deviceName}>Door Lock</Text>
+            <View style={[styles.toggle, doorLocked && styles.toggleActive]}>
+              <Icon 
+                name={doorLocked ? 'lock' : 'lock-open'} 
+                size={20} 
+                color={doorLocked ? '#fff' : '#8E8E93'} 
               />
             </View>
           </TouchableOpacity>
@@ -214,6 +267,13 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     marginVertical: 8,
     padding: 16,
+  },
+  lockSection: {
+    backgroundColor: '#1C1C1E',
+    borderRadius: 12,
+    marginVertical: 8,
+    padding: 16,
+    marginBottom: 30,
   },
   deviceHeader: {
     flexDirection: 'row',

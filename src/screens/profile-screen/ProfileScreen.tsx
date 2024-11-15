@@ -11,15 +11,15 @@ import {
   StatusBar,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import profileImg from '../../assets/Profile-img.png';
+import profileImg from '../../assets/Profile-img.jpg';
 
 const ProfileScreen = () => {
   const [isNightMode, setIsNightMode] = useState(true);
 
   const profileDetails = [
-    { icon: 'phone', value: '+91 - 1245789651' },
-    { icon: 'email', value: 'Rachel@yahooo.com' },
-    { icon: 'map-marker', value: '99 Washington Ave,\nIndore, Madhya Pradesh' },
+    { icon: 'phone', value: '+919174935380' },
+    { icon: 'email', value: 'somtyagi91@gmail.com' },
+    { icon: 'map-marker', value: 'Scheme No 74C,\nIndore, Madhya Pradesh' },
   ];
 
   return (
@@ -30,7 +30,7 @@ const ProfileScreen = () => {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>My Profile</Text>
         <View style={styles.avatarSmall}>
-          <Text style={styles.avatarText}>R</Text>
+          <Text style={styles.avatarText}>S</Text>
         </View>
       </View>
 
@@ -42,7 +42,7 @@ const ProfileScreen = () => {
             style={styles.profileImage}
           />
         </View>
-        <Text style={styles.profileName}>Rachel</Text>
+        <Text style={styles.profileName}>Som Tyagi</Text>
       </View>
 
       {/* Contact Details */}
