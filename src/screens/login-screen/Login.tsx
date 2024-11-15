@@ -6,7 +6,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import LinearGradient from 'react-native-linear-gradient';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useForm, Controller } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup'
 import { loginValidationSchema } from '../../validations/auth-validations/login-validation';
@@ -92,7 +92,7 @@ export default function Login() {
                     onPress={() => setPasswordVisible(!passwordVisible)}
                     style={styles.passwordToggle}>
                     <Icon
-                      name={passwordVisible ? 'eye' : 'eye-slash'}
+                      name={passwordVisible ? 'eye' : 'eye-off'}
                       size={20}
                       color= {colors.primary}
                     />
@@ -111,9 +111,9 @@ export default function Login() {
             </LinearGradient>
       </TouchableOpacity>
       <View style={styles.changePasswordContainer}>
-        <Text>Forgot password? </Text>
+        <Text>Don't have an account? </Text>
         <TouchableOpacity activeOpacity={0.8} onPress={() => {navigation.navigate('Signup')}}>
-          <Text style={styles.changePassword}>Change Password</Text>
+          <Text style={styles.changePassword}>Sign Up</Text>
         </TouchableOpacity>
       </View>
       <Modal isVisible={errorModalVisible} onBackdropPress={() => setErrorModalVisible(false)}>
@@ -177,8 +177,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
-    marginHorizontal: 30,
-    top: 250,
+    marginTop: 'auto',
   },
   changePassword: {
     color: colors.btn,

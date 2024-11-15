@@ -1,32 +1,27 @@
-// CameraFeedScreen.js
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
   View,
   Text,
   StyleSheet,
-  Image,
   TouchableOpacity,
   StatusBar,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import roomImg from '../../assets/room-image.png';
+import { useAppSelector } from '../../app/hooks';
+import { WebView } from 'react-native-webview';
 
 const CameraFeed = ({ id, room, time }) => {
   return (
     <View style={styles.cameraSection}>
       <Text style={styles.cameraTitle}>CAMERA {id}</Text>
       <View style={styles.feedContainer}>
-        <Image
-          source={roomImg}
-          style={styles.feedImage}
-          resizeMode="cover"
-        />
+      <WebView
+        source={{ uri: 'http://192.168.1.2:8080/browserfs.html' }}
+        style={styles.feedImage}
+      />
         <View style={styles.overlayContainer}>
           <View style={styles.leftOverlay}>
-            <View style={styles.liveIndicator}>
-              <Text style={styles.liveText}>LIVE</Text>
-            </View>
             <View style={styles.roomIndicator}>
               <Icon name="circle-small" size={20} color="white" />
               <Text style={styles.roomText}>{room}</Text>
@@ -34,9 +29,9 @@ const CameraFeed = ({ id, room, time }) => {
           </View>
           <View style={styles.rightOverlay}>
             <Text style={styles.timeText}>{time}</Text>
-            <TouchableOpacity style={styles.settingsButton}>
-              <Icon name="dots-horizontal" size={20} color="white" />
-            </TouchableOpacity>
+            <View style={styles.liveIndicator}>
+              <Text style={styles.liveText}>LIVE</Text>
+            </View>
           </View>
         </View>
       </View>
@@ -45,19 +40,27 @@ const CameraFeed = ({ id, room, time }) => {
 }
 
 const CameraFeedScreen = () => {
-  const tabs = [
-    { icon: 'home', active: false },
-    { icon: 'camera', active: true },
-    { icon: 'view-grid', active: false },
-    { icon: 'account-multiple', active: false },
-    { icon: 'bell', badge: true, active: false },
-    { icon: 'account', active: false },
-  ];
+  const user = useAppSelector(state => state.login.user);
+
+  const [currentTime, setCurrentTime] = useState('');
 
   const cameras = [
-    { id: 1, room: 'Living Room', time: '10:23 AM' },
-    { id: 2, room: 'Living Room', time: '10:23 AM' },
+    { id: 1, room: 'Living Room', time: currentTime },
   ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const now = new Date();
+      const hours = now.getHours();
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      const formattedHours = hours % 12 || 12;
+      const time = `${formattedHours}:${minutes} ${ampm}`;
+      setCurrentTime(time);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -67,7 +70,7 @@ const CameraFeedScreen = () => {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Live Camera Feed</Text>
         <View style={styles.avatar}>
-          <Text style={styles.avatarText}>R</Text>
+          <Text style={styles.avatarText}>{user?.name[0]}</Text>
         </View>
       </View>
 
@@ -118,6 +121,8 @@ const styles = StyleSheet.create({
   },
   cameraSection: {
     padding: 20,
+    width: '100%',
+    height: 200,
   },
   cameraTitle: {
     color: 'white',
@@ -126,37 +131,38 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   feedContainer: {
-    borderRadius: 15,
-    overflow: 'hidden',
-    backgroundColor: '#1E1E1E',
+    width: '100%',
+    height: 195,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 30,
+    borderRadius: 20,
   },
   feedImage: {
-    width: '100%',
-    height: 200,
+    width: 350,
+    height: 220,
   },
   overlayContainer: {
     position: 'absolute',
     top: 0,
     left: 0,
     right: 0,
-    padding: 15,
+    paddingHorizontal: 20,
+    paddingVertical: 4,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  leftOverlay: {
-    flexDirection: 'column',
-    gap: 8,
-  },
+  leftOverlay:{},
   rightOverlay: {
-    flexDirection: 'column',
-    alignItems: 'flex-end',
-    gap: 8,
+    gap: 125,
   },
   liveIndicator: {
     backgroundColor: '#FF4C4C',
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
     paddingVertical: 5,
     borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   liveText: {
     color: 'white',

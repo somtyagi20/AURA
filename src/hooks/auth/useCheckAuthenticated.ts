@@ -4,7 +4,7 @@ import {authAPIs} from '../api-urls/auth-urls/index';
 
 const getProfile = async (): Promise<TServerResponse> => {
   const response = await request({
-    url: authAPIs.GETPROFLE,
+    url: authAPIs.GETPROFILE,
     method: 'GET',
   });
   return response;

@@ -1,5 +1,4 @@
-// ProfileScreen.js
-import React, { useState } from 'react';
+import React from 'react';
 import {
   SafeAreaView,
   View,
@@ -12,14 +11,15 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import profileImg from '../../assets/Profile-img.jpg';
+import { useAppSelector } from '../../app/hooks';
+import { store } from '../../app/store';
+import { logout } from '../../app/reducers/login/login-reducer';
 
 const ProfileScreen = () => {
-  const [isNightMode, setIsNightMode] = useState(true);
+  const user = useAppSelector(state => state.login.user);
 
   const profileDetails = [
-    { icon: 'phone', value: '+919174935380' },
-    { icon: 'email', value: 'somtyagi91@gmail.com' },
-    { icon: 'map-marker', value: 'Scheme No 74C,\nIndore, Madhya Pradesh' },
+    { icon: 'phone', value: user?.phone_number },
   ];
 
   return (
@@ -30,19 +30,16 @@ const ProfileScreen = () => {
       <View style={styles.header}>
         <Text style={styles.headerTitle}>My Profile</Text>
         <View style={styles.avatarSmall}>
-          <Text style={styles.avatarText}>S</Text>
+          <Text style={styles.avatarText}>{user?.name[0]}</Text>
         </View>
       </View>
 
       {/* Profile Section */}
       <View style={styles.profileSection}>
         <View style={styles.avatarLarge}>
-          <Image
-            source={profileImg}
-            style={styles.profileImage}
-          />
+          <Text style={styles.profileImage}>{user?.name[0]}</Text>
         </View>
-        <Text style={styles.profileName}>Som Tyagi</Text>
+        <Text style={styles.profileName}>{user?.name}</Text>
       </View>
 
       {/* Contact Details */}
@@ -57,20 +54,7 @@ const ProfileScreen = () => {
 
       {/* Settings */}
       <View style={styles.settingsSection}>
-        <View style={styles.settingRow}>
-          <View style={styles.settingLeft}>
-            <Icon name="moon-waxing-crescent" size={20} color="#7367F0" />
-            <Text style={styles.settingText}>Night mode</Text>
-          </View>
-          <Switch
-            value={isNightMode}
-            onValueChange={setIsNightMode}
-            trackColor={{ false: '#767577', true: '#7367F0' }}
-            thumbColor="#fff"
-          />
-        </View>
-
-        <TouchableOpacity style={styles.signOutRow}>
+        <TouchableOpacity style={styles.signOutRow} onPress={() => {store.dispatch(logout())}}>
           <Icon name="logout" size={20} color="#7367F0" />
           <Text style={styles.settingText}>Sign out</Text>
         </TouchableOpacity>
@@ -119,12 +103,14 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     borderRadius: 60,
-    backgroundColor: '#1E1E1E',
-    overflow: 'hidden',
+    backgroundColor: '#7367F0',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   profileImage: {
-    width: '100%',
-    height: '100%',
+    color: 'white',
+    fontSize: 64,
+    fontWeight: '600',
   },
   profileName: {
     color: 'white',

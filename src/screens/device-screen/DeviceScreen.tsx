@@ -12,10 +12,12 @@ import {
 // Updated import for MaterialCommunityIcons
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import io from 'socket.io-client';
+import { useAppSelector } from '../../app/hooks';
 
-const socket = io('http://192.168.255.181:3000'); // Adjust the URL to your backend
+const socket = io('http://192.168.137.62:3000'); // Adjust the URL to your backend
 
 const DevicesScreen = () => {
+  const user = useAppSelector(state => state.login.user);
   const [selectedRoom, setSelectedRoom] = useState('Living Room');
   const [devices, setDevices] = useState({
     smartLamp1: true,
@@ -69,7 +71,7 @@ const DevicesScreen = () => {
       <View style={styles.header}>
         <Text style={styles.headerText}>Devices</Text>
         <View style={styles.profileButton}>
-          <Text style={styles.profileButtonText}>R</Text>
+          <Text style={styles.profileButtonText}>{user?.name[0]}</Text>
         </View>
       </View>
 

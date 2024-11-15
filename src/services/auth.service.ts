@@ -13,15 +13,15 @@ export const checkUserAuthenticate = async (response: TServerResponse) => {
         const token = await AsyncStorage.getItem(`${Config.REACT_APP_SECRET_KEY}`);
         if (token) {
           const user = {
-            id: response.data?._id,
-            phone_number: response.data?.phone_number,
-            name: response.data?.name,
+            id: response.data?.user?._id,
+            phone_number: response.data?.user?.phone_number,
+            name: response.data?.user?.name,
           };
   
           if (user.id && user.phone_number && user.name) {
             store.dispatch(login({ token, user }));
           } else {
-            console.error('User data is incomplete:', response.data);
+            console.error('User data is incomplete:', user);
             store.dispatch(logout());
           }
         } else {

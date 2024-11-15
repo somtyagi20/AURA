@@ -3,11 +3,13 @@ import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, Text, StyleSheet, FlatList, StatusBar } from 'react-native';
 import io from 'socket.io-client';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useAppSelector } from '../../app/hooks';
 
 
-const socket = io('http://192.168.255.181:3000'); // Adjust the URL to your backend
+const socket = io('http://192.168.137.62:3000'); // Adjust the URL to your backend
 
 const NotificationsScreen = () => {
+  const user = useAppSelector(state => state.login.user);
   const [notifications, setNotifications] = useState([
   ]);
 
@@ -31,10 +33,22 @@ const NotificationsScreen = () => {
       setNotifications((prevNotifications) => [newNotification, ...prevNotifications]);
     });
 
+    socket.on('intruderAlert',(data)=>{
+      const intruderAlert = {
+        id: notifications.length + 1,
+        type: 'intruder',
+        location: 'Intruder Detection',
+        time: new Date().toLocaleString(),
+        message: data.message
+      }
+      setNotifications((prevNotifications) => [intruderAlert, ...prevNotifications]);
+    })
+
     return () => {
       socket.off('connect');
       socket.off('disconnect');
       socket.off('smokeAlert');
+      socket.off('intruderAlert');
     };
   }, [notifications]);
 
@@ -46,6 +60,9 @@ const NotificationsScreen = () => {
       {item.type === 'smoke' && (
         <Text style={styles.notificationValue}>Smoke Level: {item.value}</Text>
       )}
+      {item.type === 'intruder' && (
+        <Text style={styles.notificationValue}>{item.message}</Text>
+      )}
     </View>
   );
 
@@ -55,7 +72,7 @@ const NotificationsScreen = () => {
       <View style={styles.header}>
         <Text style={styles.headerText}>Notifications</Text>
         <View style={styles.profileButton}>
-          <Text style={styles.profileButtonText}>R</Text>
+          <Text style={styles.profileButtonText}>{user.name[0]}</Text>
         </View>
       </View>
       <FlatList
