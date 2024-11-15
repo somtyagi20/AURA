@@ -7,7 +7,6 @@ import { store } from './src/app/store';
 import { NavigationContainer } from '@react-navigation/native';
 import AppNavigator from './src/navigation/app-navigator/AppNavigator';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import CameraFeedScreen from './src/screens/CameraFeed';
 
 const queryClient = new QueryClient();
 function App(): React.JSX.Element {
@@ -18,7 +17,6 @@ function App(): React.JSX.Element {
           <NavigationContainer>
           <AppNavigator/>
           </NavigationContainer>
-          {/* <CameraFeedScreen/> */}
         </SafeAreaView>
      </QueryClientProvider>
     </Provider>
