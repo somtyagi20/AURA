@@ -1,12 +1,11 @@
-// NotificationsScreen.js
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View, Text, StyleSheet, FlatList, StatusBar } from 'react-native';
+import { SafeAreaView, View, Text, StyleSheet, FlatList, StatusBar, PermissionsAndroid, Platform } from 'react-native';
 import io from 'socket.io-client';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useAppSelector } from '../../app/hooks';
+import PushNotification from 'react-native-push-notification';
 
 
-const socket = io('http://192.168.137.62:3000'); // Adjust the URL to your backend
+const socket = io('http://192.168.137.238:3000'); // Adjust the URL to your backend
 
 const NotificationsScreen = () => {
   const user = useAppSelector(state => state.login.user);
@@ -31,26 +30,92 @@ const NotificationsScreen = () => {
         value: data.value,
       };
       setNotifications((prevNotifications) => [newNotification, ...prevNotifications]);
+
+      // Send push notification
+      PushNotification.localNotification({
+        channelId: 'default-channel', // Must match the created channel ID
+        title: 'Smoke Alert 🚨',
+        message: `Smoke Level: ${data.value}`,
+        bigText: `Smoke detected in ${newNotification.location}. Level: ${data.value}`,
+        vibrate: true,
+        vibration: 300,
+        playSound: true,
+        soundName: 'default',
+      });
     });
 
-    socket.on('intruderAlert',(data)=>{
+    socket.on('intruderAlert', (data) => {
       const intruderAlert = {
         id: notifications.length + 1,
         type: 'intruder',
         location: 'Intruder Detection',
         time: new Date().toLocaleString(),
-        message: data.message
-      }
+        message: data.message,
+      };
       setNotifications((prevNotifications) => [intruderAlert, ...prevNotifications]);
-    })
+
+      // Send push notification
+      PushNotification.localNotification({
+        channelId: 'default-channel',
+        title: 'Intruder Alert 🚨',
+        message: data.message,
+        bigText: `Intruder detected in ${intruderAlert.location}. Message: ${data.message}`,
+        vibrate: true,
+        vibration: 300,
+        playSound: true,
+        soundName: 'default',
+      });
+    });
+
+    socket.on('emergencyAlert', (data) => {
+      const emergencyAlert = {
+        id: notifications.length + 1,
+        type: 'emergency',
+        location: 'Emergency Alert',
+        time: new Date().toLocaleString(),
+        message: data.message,
+      };
+      setNotifications((prevNotifications) => [emergencyAlert, ...prevNotifications]);
+
+      // Send push notification
+      PushNotification.localNotification({
+        channelId: 'default-channel',
+        title: 'Emergency Alert 🚨',
+        message: data.message,
+        bigText: `Emergency alert in ${emergencyAlert.location}. Message: ${data.message}`,
+        vibrate: true,
+        vibration: 300,
+        playSound: true,
+        soundName: 'default',
+      }); 
+    });
+
+      
 
     return () => {
       socket.off('connect');
       socket.off('disconnect');
       socket.off('smokeAlert');
       socket.off('intruderAlert');
+      socket.off('emergencyAlert');
     };
   }, [notifications]);
+
+  useEffect(() => {
+    const requestNotificationPermission = async () => {
+      if (Platform.OS === 'android' && Platform.Version >= 33) {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.POST_NOTIFICATIONS
+        );
+
+        if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+          console.log('Notification permission denied');
+        }
+      }
+    };
+
+    requestNotificationPermission();
+  }, []);
 
   const renderItem = ({ item }) => (
     <View style={styles.notificationCard}>
