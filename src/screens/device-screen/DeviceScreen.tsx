@@ -14,20 +14,20 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import io from 'socket.io-client';
 import { useAppSelector } from '../../app/hooks';
 
-const socket = io('http://192.168.137.62:3000'); // Adjust the URL to your backend
+const socket = io('http://192.168.137.238:3000'); // Adjust the URL to your backend
 
 const DevicesScreen = () => {
   const user = useAppSelector(state => state.login.user);
   const [selectedRoom, setSelectedRoom] = useState('Living Room');
   const [devices, setDevices] = useState({
-    smartLamp1: true,
+    smartLamp1: false,
     smartLamp2: false,
     airConditioner: false,
     smartFan: false,
   });
   const [doorLocked, setDoorLocked] = useState(false);
 
-  const rooms = ['All Devices', 'Living Room', 'Bedroom'];
+  const rooms = ['All Devices', 'Living Room'];
 
   useEffect(() => {
     socket.on('connect', () => {
@@ -52,7 +52,7 @@ const DevicesScreen = () => {
     }));
 
     // Emit the control event to the backend
-    socket.emit('controlLed', { action: newStatus ? 'on' : 'off' });
+    socket.emit('controlLed', { action: newStatus ? 'off' : 'on' });
   };
 
   const toggleDoorLock = () => {
@@ -60,7 +60,7 @@ const DevicesScreen = () => {
     setDoorLocked(newStatus);
 
     // Emit the control event to the backend
-    socket.emit('controlLock', { action: newStatus ? 'on' : 'off' });
+    socket.emit('controlLock', { action: newStatus ? 'off' : 'on' });
   };
 
   return (

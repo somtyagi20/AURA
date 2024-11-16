@@ -4,7 +4,6 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   StatusBar,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -12,14 +11,23 @@ import { useAppSelector } from '../../app/hooks';
 import { WebView } from 'react-native-webview';
 
 const CameraFeed = ({ id, room, time }) => {
+  const [isCameraOff, setIsCameraOff] = useState(false);
   return (
     <View style={styles.cameraSection}>
       <Text style={styles.cameraTitle}>CAMERA {id}</Text>
       <View style={styles.feedContainer}>
-      <WebView
-        source={{ uri: 'http://192.168.1.2:8080/browserfs.html' }}
-        style={styles.feedImage}
-      />
+      {isCameraOff ? (
+          <View style={styles.cameraOffContainer}>
+            <Icon name="camera-off" size={60} color="#FF4C4C" />
+            <Text style={styles.cameraOffText}>Camera Off</Text>
+          </View>
+        ) : (
+          <WebView
+            source={{ uri: 'http://192.168.137.248:8080/browserfs.html' }}
+            style={styles.feedImage}
+            onError={() => setIsCameraOff(true)} // Handle server error
+          />
+        )}
         <View style={styles.overlayContainer}>
           <View style={styles.leftOverlay}>
             <View style={styles.roomIndicator}>
@@ -141,6 +149,20 @@ const styles = StyleSheet.create({
   feedImage: {
     width: 350,
     height: 220,
+  },
+  cameraOffContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 350,
+    height: 220,
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    borderRadius: 10,
+  },
+  cameraOffText: {
+    color: '#FF4C4C',
+    fontSize: 18,
+    fontWeight: '600',
+    marginTop: 10,
   },
   overlayContainer: {
     position: 'absolute',
