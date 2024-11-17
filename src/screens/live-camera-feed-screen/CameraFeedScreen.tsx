@@ -23,7 +23,7 @@ const CameraFeed = ({ id, room, time }) => {
           </View>
         ) : (
           <WebView
-            source={{ uri: 'http://192.168.137.248:8080/browserfs.html' }}
+            source={{ uri: 'http://192.168.29.241:8080/browserfs.html' }}
             style={styles.feedImage}
             onError={() => setIsCameraOff(true)} // Handle server error
           />
