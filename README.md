@@ -92,7 +92,7 @@ The Aura Smart Home System provides a complete solution for home automation, com
 git clone https://github.com/yourusername/aura.git
 cd aura/Server
 
-### 2. Install dependencies
+2. Install dependencies
 
 ```bash
 yarn install
