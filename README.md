@@ -87,15 +87,18 @@ The Aura Smart Home System provides a complete solution for home automation, com
 ## Server Setup
 
 ### 1. Clone the repository
+
 ```bash
 git clone https://github.com/yourusername/aura.git
 cd aura/Server
 
 ### 2. Install dependencies
+
 ```bash
 yarn install
 
 ### 3. Set up environment variables Create a .env file in the server directory:
+
 ```bash
 PORT=3000
 MONGODB_URI=mongodb://localhost:27017/aura
@@ -103,29 +106,35 @@ JWT_SECRET=your_jwt_secret_key
 MQTT_BROKER=mqtt://localhost:1883
 
 ### 4. Start the server
+
 ```bash
 yarn run dev
 
 ## Mobile App Setup
 
 ### 1. Navigate to the mobile app directory
+
 ```bash
 cd ../App
 
 ### 2. Install dependencies
+
 ```bash
 yarn install
 
 ### 3. Set up environment variables Create a .env file in the mobile directory:
+
 ```bash
 API_URL=http://your_server_ip:3000
 SOCKET_URL=http://your_server_ip:3000
 
 ### 4. Start the development server
+
 ```bash 
 yarn start
 
 ### 5. Run on device/emulator
+
 ```bash
 # For Android
 yarn run android
@@ -133,15 +142,19 @@ yarn run android
 yarn run ios
 
 ## Central Hub Setup
+
 ### 1. Navigate to the hub directory
+
 ```bash
 cd ../"Central Hub"
 
 ### 2. Install dependencies
+
 ```bash
 yarn install
 
 ### 3. Configure the hub Edit the config.js file to match your environment:
+
 ```bash
 module.exports = {
   mqttBroker: 'mqtt://localhost:1883',
@@ -150,6 +163,7 @@ module.exports = {
 };
 
 ### 4. Start the hub
+
 ```bash
 yarn start
 
