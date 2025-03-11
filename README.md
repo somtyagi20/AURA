@@ -86,28 +86,25 @@ The Aura Smart Home System provides a complete solution for home automation, com
 
 ## Server Setup
 
-### 1. Clone the repository
-
 ```bash
+1. Clone the repository
+
 git clone https://github.com/yourusername/aura.git
 cd aura/Server
 
 2. Install dependencies
 
-```bash
 yarn install
 
-### 3. Set up environment variables Create a .env file in the server directory:
+3. Set up environment variables Create a .env file in the server directory:
 
-```bash
 PORT=3000
 MONGODB_URI=mongodb://localhost:27017/aura
 JWT_SECRET=your_jwt_secret_key
 MQTT_BROKER=mqtt://localhost:1883
 
-### 4. Start the server
+4. Start the server
 
-```bash
 yarn run dev
 
 ## Mobile App Setup
