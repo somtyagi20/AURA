@@ -1,59 +1,184 @@
+# Aura Smart Home System
 
+## Project Overview
+Aura is a comprehensive IoT-based smart home automation system consisting of multiple interconnected components that work together to provide home monitoring, security, and device control capabilities.
 
-**Smart Home Automation System**
-==========================
+## System Architecture
 
-**Overview**
-------------
+The project is organized into four main components:
 
-This project is an AI-driven Smart Home Automation System with IoT integration, designed to enhance security, energy efficiency, and appliance control. The system is controlled via a React Native mobile app and features real-time intruder detection, fire/smoke alarms, smart locks, energy consumption tracking, and dynamic device management.
+1. **Mobile App** - React Native frontend for user interface
+2. **Server** - Node.js/Express backend with MongoDB for data persistence
+3. **MQTT End Device** - ESP32-based IoT device for sensor data collection and device control
+4. **Central Hub** - Bridge between MQTT devices and client applications
 
-**Features**
-------------
+## Key Features
 
-* **Real-time Intruder Detection**: AI-powered computer vision detects and alerts users to potential security threats.
-* **Fire/Smoke Alarms**: Integrated sensors detect fire and smoke, triggering alerts and notifications.
-* **Smart Locks**: Secure and control access to your home with smart locks integrated with the system.
-* **Energy Consumption Tracking**: Monitor and optimize energy usage in real-time.
-* **Dynamic Device Management**: Easily add, remove, and control devices connected to the system.
+### 1. User Authentication System
+- User registration and login via phone number and password
+- JWT-based authentication for secure API access
+- Profile management functionality
 
-**Technical Details**
---------------------
+### 2. IoT Device Integration
+- Support for multiple sensors:
+  - Temperature and humidity monitoring (DHT11)
+  - Smoke/air quality detection
+  - LED control for lighting
+  - Smart lock control for security
 
-* **Frontend**: React Native mobile app for user interaction and control.
-* **Backend**: Cloud-based services (AWS/Azure/Google Cloud) for data processing, AI model deployment, and device management.
-* **State Management**: Redux for efficient state management and data synchronization.
-* **AI Models**: Trained models for computer vision, object detection, and predictive analytics.
-* **IoT Integration**: Compatible with various IoT devices and protocols (e.g., Zigbee, Z-Wave, Bluetooth).
+### 3. Real-time Communication
+- MQTT protocol implementation for efficient IoT device communication
+- WebSocket integration for real-time data updates to frontend
+- Event-based notification system for alerts
 
-**System Architecture**
-----------------------
+### 4. Security Features
+- Secure authentication with JWT token validation
+- Password hashing using bcrypt
+- Smart lock control for physical security
+- Smoke detection alerts for safety monitoring
 
-### Mobile App
+### 5. Mobile Application
+- Cross-platform mobile app built with React Native
+- Redux-based state management
+- React Query for efficient API data fetching
+- Responsive UI with navigation system
+- Push notification capabilities
 
-* User authentication and authorization
-* Real-time data visualization and control
-* Push notifications and alerts
+### 6. Data Processing & Analysis
+- Sensor data collection and processing
+- Threshold-based alert system (e.g., smoke detection)
+- Real-time data visualization
 
-### Cloud Services
+### 7. Central Hub Functionality
+- Acts as middleware between IoT devices and user applications
+- MQTT broker integration
+- Socket.IO server for real-time client communication
+- Environment monitoring and threshold-based alerts
 
-* Data ingestion and processing
-* AI model deployment and inference
-* Device management and control
+### 8. Scalable Architecture
+- MongoDB database for flexible data storage
+- TypeScript implementation for type safety and code quality
+- Modular design patterns for maintainability
+- Environment-based configuration management
 
-### IoT Devices
+## Technical Implementation
 
-* Sensors and actuators for data collection and control
-* Integration with various IoT protocols and devices
+The system demonstrates modern development practices including:
+- TypeScript for type safety
+- React Hook Form with Yup validation
+- API error handling with custom response classes
+- Asynchronous programming patterns
+- Middleware implementation for authentication
+- Environmental configuration management
+- Comprehensive project organization and structure
 
-**Getting Started**
--------------------
+The Aura Smart Home System provides a complete solution for home automation, combining hardware sensors with mobile and server applications to create an integrated ecosystem for monitoring, controlling, and securing residential spaces.
 
-**Contributing**
-------------
+## Prerequisites
 
-**License**
--------
+- Before setting up the Aura Smart Home System, ensure you have the following installed:
+- Node.js (v16+)
+- npm or yarn
+- MongoDB
+- Arduino IDE (for ESP32 programming)
+- React Native development environment
+- MQTT broker (e.g., Mosquitto)
 
-**Acknowledgments**
-------------
+## Server Setup
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/yourusername/aura.git
+cd aura/Server
+
+### 2. Install dependencies
+```bash
+yarn install
+
+### 3. Set up environment variables Create a .env file in the server directory:
+```bash
+PORT=3000
+MONGODB_URI=mongodb://localhost:27017/aura
+JWT_SECRET=your_jwt_secret_key
+MQTT_BROKER=mqtt://localhost:1883
+
+### 4. Start the server
+```bash
+yarn run dev
+
+## Mobile App Setup
+
+### 1. Navigate to the mobile app directory
+```bash
+cd ../App
+
+### 2. Install dependencies
+```bash
+yarn install
+
+### 3. Set up environment variables Create a .env file in the mobile directory:
+```bash
+API_URL=http://your_server_ip:3000
+SOCKET_URL=http://your_server_ip:3000
+
+### 4. Start the development server
+```bash 
+yarn start
+
+### 5. Run on device/emulator
+```bash
+# For Android
+yarn run android
+# For iOS
+yarn run ios
+
+## Central Hub Setup
+### 1. Navigate to the hub directory
+```bash
+cd ../"Central Hub"
+
+### 2. Install dependencies
+```bash
+yarn install
+
+### 3. Configure the hub Edit the config.js file to match your environment:
+```bash
+module.exports = {
+  mqttBroker: 'mqtt://localhost:1883',
+  serverUrl: 'http://localhost:3000',
+  deviceTopics: ['aura/temperature', 'aura/humidity', 'aura/smoke', 'aura/led', 'aura/lock']
+};
+
+### 4. Start the hub
+```bash
+yarn start
+
+## ESP32 Device Setup
+### 1. Open Arduino IDE
+### 2. Install required libraries
+- ESP32 board support
+- wifi library
+### 3. Load the device firmware
+- Open device/aura_device.ino in Arduino IDE
+- Update WiFi credentials and MQTT broker address
+- Connect your ESP32 via USB
+- Select the correct board and port
+- Upload the sketch
+### 4. Hardware connections
+- Connect DHT11 sensor to pin D4
+- Connect MQ-2 smoke sensor to pin A0
+- Connect LED to pin D2
+- Connect relay for smart lock to pin D5
+
+## Testing the System
+### 1. Ensure all components are running
+- MongoDB server
+- MQTT broker
+- Backend server
+- Central hub
+- ESP32 device(s)
+- Mobile app
+### 2. Register a new user #### Open the mobile app and create a new account.
+### 3. Add devices #### Navigate to the device management section and add your ESP32 device.
+### 4. Monitor readings #### Check the dashboard to ensure sensor data is being received.
+### 5. Test controls #### Try controlling the LED and smart lock from the mobile application.
