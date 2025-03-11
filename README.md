@@ -1,79 +1,205 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Aura Smart Home System
 
-# Getting Started
+## Project Overview
+Aura is a comprehensive IoT-based smart home automation system consisting of multiple interconnected components that work together to provide home monitoring, security, and device control capabilities.
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## System Architecture
+The project is organized into four main components:
 
-## Step 1: Start the Metro Server
+1. **Mobile App** - React Native frontend for user interface.
+2. **Server** - Node.js/Express backend with MongoDB for data persistence.
+3. **MQTT End Device** - ESP32-based IoT device for sensor data collection and device control.
+4. **Central Hub** - Bridge between MQTT devices and client applications.
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+## Key Features
 
-To start Metro, run the following command from the _root_ of your React Native project:
+### 1. User Authentication System
+- User registration and login via phone number and password.
+- JWT-based authentication for secure API access.
+- Profile management functionality.
+
+### 2. IoT Device Integration
+- Support for multiple sensors:
+  - Temperature and humidity monitoring (DHT11).
+  - Smoke/air quality detection.
+  - LED control for lighting.
+  - Smart lock control for security.
+
+### 3. Real-time Communication
+- MQTT protocol implementation for efficient IoT device communication.
+- WebSocket integration for real-time data updates to frontend.
+- Event-based notification system for alerts.
+
+### 4. Security Features
+- Secure authentication with JWT token validation.
+- Password hashing using bcrypt.
+- Smart lock control for physical security.
+- Smoke detection alerts for safety monitoring.
+
+### 5. Mobile Application
+- Cross-platform mobile app built with React Native.
+- Redux-based state management.
+- React Query for efficient API data fetching.
+- Responsive UI with navigation system.
+- Push notification capabilities.
+
+### 6. Data Processing & Analysis
+- Sensor data collection and processing.
+- Threshold-based alert system (e.g., smoke detection).
+- Real-time data visualization.
+
+### 7. Central Hub Functionality
+- Acts as middleware between IoT devices and user applications.
+- MQTT broker integration.
+- Socket.IO server for real-time client communication.
+- Environment monitoring and threshold-based alerts.
+
+### 8. Scalable Architecture
+- MongoDB database for flexible data storage.
+- TypeScript implementation for type safety and code quality.
+- Modular design patterns for maintainability.
+- Environment-based configuration management.
+
+## Technical Implementation
+The system demonstrates modern development practices including:
+- TypeScript for type safety.
+- React Hook Form with Yup validation.
+- API error handling with custom response classes.
+- Asynchronous programming patterns.
+- Middleware implementation for authentication.
+- Environmental configuration management.
+- Comprehensive project organization and structure.
+
+The Aura Smart Home System provides a complete solution for home automation, combining hardware sensors with mobile and server applications to create an integrated ecosystem for monitoring, controlling, and securing residential spaces.
+
+## Prerequisites
+Before setting up the Aura Smart Home System, ensure you have the following installed:
+- Node.js (v16+)
+- npm or yarn
+- MongoDB
+- Arduino IDE (for ESP32 programming)
+- React Native development environment
+- MQTT broker (e.g., Mosquitto)
+
+## Server Setup
 
 ```bash
-# using npm
-npm start
+# 1. Clone the repository
+git clone https://github.com/yourusername/aura.git
+cd aura/Server
 
-# OR using Yarn
+# 2. Install dependencies
+yarn install
+
+# 3. Set up environment variables
+touch .env
+```
+
+Add the following content to `.env` file:
+```env
+PORT=3000
+MONGODB_URI=mongodb://localhost:27017/aura
+JWT_SECRET=your_jwt_secret_key
+MQTT_BROKER=mqtt://localhost:1883
+```
+
+```bash
+# 4. Start the server
+yarn run dev
+```
+
+## Mobile App Setup
+
+```bash
+# 1. Navigate to the mobile app directory
+cd ../App
+
+# 2. Install dependencies
+yarn install
+
+# 3. Set up environment variables
+touch .env
+```
+
+Add the following content to `.env` file:
+```env
+API_URL=http://your_server_ip:3000
+SOCKET_URL=http://your_server_ip:3000
+```
+
+```bash
+# 4. Start the development server
+yarn start
+
+# 5. Run on device/emulator
+# For Android
+yarn run android
+# For iOS
+yarn run ios
+```
+
+## Central Hub Setup
+
+```bash
+# 1. Navigate to the hub directory
+cd ../"Central Hub"
+
+# 2. Install dependencies
+yarn install
+```
+
+Edit `config.js` to match your environment:
+```javascript
+module.exports = {
+  mqttBroker: 'mqtt://localhost:1883',
+  serverUrl: 'http://localhost:3000',
+  deviceTopics: ['aura/temperature', 'aura/humidity', 'aura/smoke', 'aura/led', 'aura/lock']
+};
+```
+
+```bash
+# 4. Start the hub
 yarn start
 ```
 
-## Step 2: Start your Application
+## ESP32 Device Setup
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
+### 1. Open Arduino IDE
+### 2. Install Required Libraries
+- ESP32 board support
+- WiFi library
 
-### For Android
+### 3. Load the Device Firmware
+- Open `device/aura_device.ino` in Arduino IDE.
+- Update WiFi credentials and MQTT broker address.
+- Connect your ESP32 via USB.
+- Select the correct board and port.
+- Upload the sketch.
 
-```bash
-# using npm
-npm run android
+### 4. Hardware Connections
+- Connect DHT11 sensor to pin D4.
+- Connect MQ-2 smoke sensor to pin A0.
+- Connect LED to pin D2.
+- Connect relay for smart lock to pin D5.
 
-# OR using Yarn
-yarn android
-```
+## Testing the System
 
-### For iOS
+### 1. Ensure All Components Are Running
+- MongoDB server.
+- MQTT broker.
+- Backend server.
+- Central hub.
+- ESP32 device(s).
+- Mobile app.
 
-```bash
-# using npm
-npm run ios
+### 2. Register a New User
+- Open the mobile app and create a new account.
 
-# OR using Yarn
-yarn ios
-```
+### 3. Add Devices
+- Navigate to the device management section and add your ESP32 device.
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+### 4. Monitor Readings
+- Check the dashboard to ensure sensor data is being received.
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
-
-## Step 3: Modifying your App
-
-Now that you have successfully run the app, let's modify it.
-
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+### 5. Test Controls
+- Try controlling the LED and smart lock from the mobile application.
